@@ -3,7 +3,6 @@ package com.codepath.apps.restclienttemplate;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.view.Menu;
 import android.view.View;
 
 import com.codepath.apps.restclienttemplate.models.SampleModel;
@@ -33,12 +32,6 @@ public class LoginActivity extends OAuthLoginActionBarActivity<TwitterClient> {
 	}
 
 
-	// Inflate the menu; this adds items to the action bar if it is present.
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.login, menu);
-		return true;
-	}
 
 	// OAuth authenticated successfully, launch primary authenticated activity
 	// i.e Display application "homepage"
@@ -58,7 +51,7 @@ public class LoginActivity extends OAuthLoginActionBarActivity<TwitterClient> {
 
 	// Click handler method for the button used to start OAuth flow
 	// Uses the client to initiate OAuth authorization
-	// This should be tied to a button used to login
+	// This should be tied to a button used to compose
 	public void loginToRest(View view) {
 		getClient().connect();
 	}
