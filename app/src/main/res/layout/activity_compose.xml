@@ -20,7 +20,8 @@
         android:layout_height="wrap_content"
         android:text="Tweet"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/etCompose" />
+        app:layout_constraintTop_toBottomOf="@+id/etCompose"
+        android:onClick="onSendTweet"/>
 
 
 </android.support.constraint.ConstraintLayout>
