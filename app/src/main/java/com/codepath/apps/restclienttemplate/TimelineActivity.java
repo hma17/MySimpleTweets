@@ -15,6 +15,7 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
@@ -53,11 +54,11 @@ public class TimelineActivity extends AppCompatActivity {
         return true;
     }
 
-   public void OnComposeClick(MenuItem item) {
-       Intent i = new Intent(this, ComposeActivity.class);
-       startActivity(i); // brings up the second activity
+    public void OnComposeClick(MenuItem item) {
+        Intent i = new Intent(this, ComposeActivity.class);
+        startActivityForResult(i,20); // brings up the second activity
 
-   }
+    }
 
     private void populateTimeLine() {
         client.getHomeTimeline(new JsonHttpResponseHandler() {
@@ -105,5 +106,14 @@ public class TimelineActivity extends AppCompatActivity {
         });
 
 
+    }
+
+    protected void onActivityResult(int requestCode, int ResultCode, int resultCode, Intent data) {
+
+        //use data parameter
+        Tweet tweet = (Tweet) Parcels.unwrap(data.getParcelableExtra("tweet"));
+        tweets.add(0,tweet);
+        tweetAdapter.notifyItemInserted(0);
+        rvTweets.scrollToPosition(0);
     }
 }

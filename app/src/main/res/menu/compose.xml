@@ -11,9 +11,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:showAsAction="always"
-        android:onClick="OnComposeClick">
+        android:onClick="OnComposeClick"
+        />
 
 
-    </item>
+
 
 </menu>
