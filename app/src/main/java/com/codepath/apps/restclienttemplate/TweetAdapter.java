@@ -17,6 +17,10 @@ import java.text.SimpleDateFormat;
 import java.util.List;
 import java.util.Locale;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation;
+
 public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> {
 
     private List<Tweet> mTweets;
@@ -49,7 +53,9 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
         holder.tvBody.setText(tweet.body);
         holder.tvRelativeDate.setText(tweet.createdAt);
 
-        Glide.with(context).load(tweet.user.profileImageUrl).into(holder.ivProfileImage);
+        Glide.with(context).load(tweet.user.profileImageUrl)
+                .bitmapTransform(new RoundedCornersTransformation(context, 74,0))
+                .into(holder.ivProfileImage);
     }
 
 
@@ -71,20 +77,17 @@ public class TweetAdapter extends RecyclerView.Adapter<TweetAdapter.ViewHolder> 
     //create ViewHolder class
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        public ImageView ivProfileImage;
-        public TextView tvUsername;
-        public TextView tvBody;
-        public TextView tvRelativeDate;
+        @BindView(R.id.ivProfileImage) public ImageView ivProfileImage;
+        @BindView(R.id.tvUsername) public TextView tvUsername;
+        @BindView(R.id.tvBody) public TextView tvBody;
+        @BindView(R.id.tvRelativeDate) public TextView tvRelativeDate;
 
         public ViewHolder(View itemView) {
             super(itemView);
 
             //perform findViewById lookups
 
-            ivProfileImage = (ImageView) itemView.findViewById(R.id.ivProfileImage);
-            tvUsername = (TextView) itemView.findViewById(R.id.tvUsername);
-            tvBody = (TextView) itemView.findViewById(R.id.tvBody);
-            tvRelativeDate = (TextView) itemView.findViewById(R.id.tvRelativeDate);
+            ButterKnife.bind(this,itemView);
 
 
         }

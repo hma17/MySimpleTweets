@@ -2,6 +2,7 @@ package com.codepath.apps.restclienttemplate;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -21,6 +22,8 @@ import org.parceler.Parcels;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import cz.msebera.android.httpclient.Header;
 
 public class TimelineActivity extends AppCompatActivity {
@@ -28,8 +31,9 @@ public class TimelineActivity extends AppCompatActivity {
     private TwitterClient client;
     TweetAdapter tweetAdapter;
     ArrayList<Tweet> tweets;
-    RecyclerView rvTweets;
+    @BindView(R.id.rvTweet) RecyclerView rvTweets;
     private SwipeRefreshLayout swipeContainer;
+    MenuItem miActionProgressItem;
 
 
 
@@ -40,7 +44,7 @@ public class TimelineActivity extends AppCompatActivity {
         client = TwitterApp.getRestClient(this);
 
         //find the RecyclerView
-        rvTweets = (RecyclerView) findViewById(R.id.rvTweet);
+       ButterKnife.bind(this);
         // init the arraylist (Data source)
         tweets = new ArrayList<>();
         //construct the adapter form this datasource
@@ -69,6 +73,7 @@ public class TimelineActivity extends AppCompatActivity {
                 android.R.color.holo_green_light,
                 android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
+
     }
 
     public void fetchTimelineAsync(int page) {
@@ -80,7 +85,6 @@ public class TimelineActivity extends AppCompatActivity {
             public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
                 // Remember to CLEAR OUT old items before appending in the new ones
                 tweetAdapter.clear();
-
                 List<Tweet> listOfTweets = new ArrayList<>();
                 for (int i = 0; i <response.length(); i++) {
                     try {
@@ -100,7 +104,6 @@ public class TimelineActivity extends AppCompatActivity {
     });
 
     }
-
 
 
     @Override
@@ -163,12 +166,34 @@ public class TimelineActivity extends AppCompatActivity {
 
     }
 
-    protected void onActivityResult(int requestCode, int ResultCode, int resultCode, Intent data) {
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
         //use data parameter
         Tweet tweet = (Tweet) Parcels.unwrap(data.getParcelableExtra("tweet"));
         tweets.add(0,tweet);
         tweetAdapter.notifyItemInserted(0);
         rvTweets.scrollToPosition(0);
+    }
+
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        // Store instance of the menu item containing progress
+        miActionProgressItem = menu.findItem(R.id.miActionProgress);
+
+        // Return to finish
+        return super.onPrepareOptionsMenu(menu);
+    }
+
+    public void showProgressBar() {
+        // Show progress item
+        miActionProgressItem.setVisible(true);
+    }
+
+    public void hideProgressBar() {
+        // Hide progress item
+        miActionProgressItem.setVisible(false);
     }
 }

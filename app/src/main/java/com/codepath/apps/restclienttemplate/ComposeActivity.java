@@ -16,14 +16,16 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.parceler.Parcels;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import cz.msebera.android.httpclient.Header;
 
 
 public class ComposeActivity extends AppCompatActivity {
 
-    EditText etCompose;
+    @BindView(R.id.etCompose) EditText etCompose;
     TwitterClient client;
-    TextView tvTotalChars;
+    @BindView(R.id.tvTotalChars) TextView tvTotalChars;
 
 
     @Override
@@ -31,9 +33,9 @@ public class ComposeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_compose);
 
+        ButterKnife.bind(this);
         client = TwitterApp.getRestClient(ComposeActivity.this);
-        tvTotalChars = (TextView) findViewById(R.id.tvTotalChars);
-        etCompose = (EditText) findViewById(R.id.etCompose);
+
 
         etCompose.addTextChangedListener(new TextWatcher() {
 
@@ -52,7 +54,7 @@ public class ComposeActivity extends AppCompatActivity {
 
     //network request to statuses/update
     public void onSendTweet(View view) {
-        etCompose = (EditText) findViewById(R.id.etCompose);
+      ButterKnife.bind(this);
         client.sendTweet(etCompose.getText().toString(), new JsonHttpResponseHandler() {
             @Override
             public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
